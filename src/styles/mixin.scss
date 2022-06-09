@@ -1,0 +1,13 @@
+@mixin hoverStyle {
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 0%;
+    content: ' ';
+    color: transparent;
+    background: $secondary-color;
+    height: 2px;
+    transition: all .5s linear;
+}
