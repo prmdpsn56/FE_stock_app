@@ -1,0 +1,26 @@
+@import '../../App.scss';
+
+.container{
+    padding: 30px 0px;
+    .title{
+        text-align: center;
+        margin-bottom:50px;
+        span {
+        font-size: 30px;
+        font-weight: 800;
+        border-bottom: 10px solid $highlight-color;
+        padding:10px 0;
+        margin-bottom:30px;
+        }
+    }
+    .stocks {
+        height: auto;
+
+        width:100%;
+        height:auto;
+    .noContent{
+        text-align:center;
+        }
+    }
+}
+

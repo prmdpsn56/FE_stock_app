@@ -1,0 +1,52 @@
+@import '../../App.scss';
+
+    .stocksItem{
+        width:50%;
+        flex-direction: row;
+        margin:auto;
+        background: $primary-color;
+        border-radius: 10px;
+        padding:20px;
+        margin:10px auto;
+        transition: 0.25s linear;
+        a {
+            color: $secondary-color;
+        }
+            h1 {
+                // color: $secondary-color;
+                color: white;
+            }
+            &:hover{
+                -webkit-box-shadow: -1px 2px 15px -6px #000000; 
+                box-shadow: -1px 2px 15px -6px #000000;
+                transform: scale(0.97);
+                cursor: pointer;
+            }
+            @media screen and (max-width: $mobile) {
+                width:80%;
+            }
+            .info{
+                margin-top:10px;
+                display: flex;
+                justify-content: space-between;
+                color:lightgrey;
+                .infoleft{
+                    span {
+                        font-size: 10px;
+                        margin-left: 5px;
+                        margin: 0px;
+                        color: white;
+                        background: grey;
+                        padding:0px 5px;
+                    }
+                }
+                .inforight{
+                    span:first-child {
+                        background: green;
+                        text-align: right;
+                        padding:0px 5px;
+                        border-radius:3px;
+                    }
+                }
+            }
+    }
