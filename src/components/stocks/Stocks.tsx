@@ -1,13 +1,11 @@
 import React,{useState} from "react";
 import styles from './Stocks.module.scss';
 import {StocksItem} from '../stocksItem/StocksItem';
-import { Register } from "../register/Register";
 import { Company } from '../../models/companies';
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 
 export const Stocks = () => {
-    const [registeredCompanies, setCompanies] = useState(true)
-    let headLine = registeredCompanies ? 'Registered Companies' : 'No Registered Companies Found'
     let companies: Company [] = [
         {
             _id: "62a403f2f331f54566c68fc9",
@@ -44,8 +42,10 @@ export const Stocks = () => {
             website: "microsoft.com",
             exchange: "NASDAQ"
         }]
-     let companiesList = companies.map((company)=>(
-     <NavLink to='/info/'>
+    const [registeredCompanies, setCompanies] = useState(companies);
+    let headLine = registeredCompanies.length > 0 ? 'Registered Companies' : 'No Registered Companies Found'
+     let companiesList = companies.map((company: Company)=>(
+     <Link to={'/info/'+company.code}>
         <StocksItem 
             code={company.code} 
             name={company.name} 
@@ -54,27 +54,16 @@ export const Stocks = () => {
             turnover={company.turnover} 
             website={company.website} 
             key={company._id}/>
-    </NavLink>));
+    </Link>));
     
-     const fetchCompanies = () => {
-        setCompanies((prevState)=>{
-            return !prevState;
-        });
-    }
-
     return(
-        <div className={styles.container}>
-        {
-            registeredCompanies && <div className={styles.stocks}>
+        <div className='container'>
+            <div className={styles.stocks}>
                 <div className={styles.title}>
                     <span>{headLine}</span>
                 </div>
                     <br/>
                     {registeredCompanies && companiesList}
              </div>
-            }
-            
-            {!registeredCompanies && <Register/>}
-            <button onClick={fetchCompanies}>change State</button>
         </div>
     )}

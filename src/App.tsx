@@ -5,7 +5,9 @@ import { Footer } from "./components/footer/Footer";
 import { Banner } from "./components/banner/Banner";
 import { Stocks } from "./components/stocks/Stocks";
 import { Route, Switch, Redirect } from "react-router-dom";
-import { Details } from './components/companyDetails/Details'
+import { Details } from './components/companyDetails/Details';
+import { Register } from './components/register/Register';
+import { Notfound } from './components/not-found/Notfound';
 
 function App() {
   return (
@@ -16,16 +18,19 @@ function App() {
     <Route path="/" exact>
       <Redirect to='/companies'/>
     </Route>
-        <Route path="/companies" exact>
+    <Route path="/companies" exact>
           <Stocks />
-        </Route>
-        <Route path="/info/:code" exact>
-          <Details/>
-        </Route>
-        <Route path="*" exact>
-          <p>Not found</p>
-        </Route>
-      </Switch>
+    </Route>
+    <Route path="/register" exact>
+          <Register />
+    </Route>
+    <Route path="/info/:code" exact>
+        <Details/>
+    </Route>
+    <Route path="*">
+          < Notfound/>
+    </Route>
+  </Switch>
       <Footer />
     </div>
   );

@@ -41,7 +41,6 @@ a {
     .container {
         cursor: pointer;
         display: none;
-        margin: 15px;
 
         @media screen and (max-width: $mobile) {
             display: inline-block;

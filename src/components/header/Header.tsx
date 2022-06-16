@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './Header.module.scss';
+import { Link } from "react-router-dom";
 
 export const Header = () => {
   const [state, setHeaderState] = useState(false);
@@ -26,13 +27,10 @@ export const Header = () => {
         </div>
         <ul>
           <li>
-            <a href="/">Companies</a>
+            <Link to="/companies">Companies</Link>
           </li>
           <li>
-            <a href="/">Register</a>
-          </li>
-          <li>
-            <a href="/">Stocks</a>
+            <Link to="/register">Register</Link>
           </li>
         </ul>
       </div>
@@ -40,13 +38,10 @@ export const Header = () => {
       <div className={sidebarClasses}>
         <ul className={styles['sidebar-navigation']}>
           <li>
-            <a href="/">Companies</a>
+            <Link to="/companies">Companies</Link>
           </li>
           <li>
-            <a href="/">Register</a>
-          </li>
-          <li>
-            <a href="/">Stocks</a>
+            <Link to="/register">Register</Link>
           </li>
         </ul>
       </div>

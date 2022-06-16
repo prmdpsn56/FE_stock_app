@@ -1,0 +1,93 @@
+@import '../../App.scss';
+.details {    
+    padding:30px;
+    background:black;
+    color:lightgrey;
+    .title {
+        font-weight:700;
+        text-align: center;
+        font-size: 60px;
+        border-left: 10px solid $highlight-color;
+        padding: 10px 20px;
+        margin-bottom: 50px;
+    }
+
+    .info {
+        margin-top:50px;
+        padding-left:10px;
+    }
+    h3 {
+        margin: 10px 0px;
+        font-size: 20px;
+        color: lightgrey;
+        span{
+            font-weight:700;
+            padding:3px;
+            margin:10px 0px;
+            color: $highlight-color;
+        }
+    }
+
+     @media screen and (min-width: 700px) { 
+        width:100%;
+    }
+}
+
+
+.stocks {
+        padding-left:10px;
+        padding: 50px;
+        max-height:500px;
+        overflow:scroll;
+        .priceDetail {
+            max-width:400px;
+            display:flex;
+            justify-content: space-around;
+            margin: 10px auto;
+            padding: 10px 30px;
+            border-radius:10px;
+            background: $highlight-color;
+            .price {
+                span {
+                    // background: $primary-color;
+                    // color:lightgrey;
+                }
+            }
+            .date {
+
+            }
+        }
+         @media screen and (min-width: 700px) { 
+            width:100%;
+    }
+    }
+
+.flex {
+    display:block;
+    @media screen and (min-width: 700px) { 
+        display:flex;
+    }
+}
+
+.deleteButton {
+    background: #b70101;
+    font-weight:700;
+    border-radius:10px;
+    font-size:15px;
+    border:none;
+    padding: 10px 20px;
+    color: white;
+    margin:30px auto;
+}
+
+.stockButton {
+    background: $highlight-color;
+    font-weight:700;
+    border-radius:10px;
+    font-size:15px;
+    border:none;
+    padding: 10px 20px;
+    color: white;
+    margin:30px auto;
+    margin: 10px;
+}

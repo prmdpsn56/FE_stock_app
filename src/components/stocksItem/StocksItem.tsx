@@ -2,6 +2,7 @@ import React,{useEffect} from "react";
 import styles from './StocksItem.module.scss';
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { NavLink } from "react-router-dom";
 
 export const StocksItem = (props:any) => {
     useEffect(() => {
@@ -11,10 +12,10 @@ export const StocksItem = (props:any) => {
       };
     }, [])
     return (
-        <div className={styles.stocksItem} data-aos="fade-up">
+        <div className={styles.stocksItem}>
             <div>
                 <h1>{props.code.toUpperCase()}</h1>
-                <a href="www.microsoft.com" target="_blank">{props.website}</a>
+                <NavLink to="www.microsoft.com" target="_blank">{props.website}</NavLink>
             </div>
             <div className={styles.info}> 
                 <div className={styles.infoleft}>
