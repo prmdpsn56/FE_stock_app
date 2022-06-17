@@ -4,121 +4,91 @@ import styles from './Details.module.scss';
 import {CompanyDetail} from '../../models/detail';
 import {Stock} from '../../models/detail';
 import { Modal } from '../modal/Modal';
-// import  { DatesRangeInput} from 'semantic-ui-calendar-react';
+import DateRangePicker from '@wojtekmaj/react-daterange-picker'
+import { useHistory } from "react-router-dom";
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+interface DetailsProps {
+    notifyError: () => void,
+    notifySuccess: () => void
+}
 
-export const Details = () => {
-    const [modalState, setModalState] = useState(false);
-    const [averagePrice, setAveragePrice] = useState(0);
-    const [highestPrice, setHighestPrice] = useState(0);
-    const [lowestPrice, setLowestPrice] = useState(0);
+export const Details:React.FC<DetailsProps> = (props:DetailsProps) => {
     let stockValues:number [] = [];
-    let companyInfo: CompanyDetail = {
-        _id: "62a6c35051b9dbc2cc2162d7",
-        code: "msft11",
-        name: "microsoft",
-        ceo: "nadella",
-        turnover: "220cs",
-        website: "microsoft.com",
-        exchange: "NASDAQ",
-        createdAt: "2022-06-13T04:55:44.959Z",
-        updatedAt: "2022-06-13T04:55:44.959Z",
+    let date,stocks_List ;
+    const history = useHistory();
+    let params = useParams<{ code: string }>();
+    const [modalState, setModalState] = useState<boolean>(false);
+    const [value, onChange] = useState([new Date(), new Date()]);
+    const [averagePrice, setAveragePrice] = useState<number>(0);
+    const [highestPrice, setHighestPrice] = useState<number>(0);
+    const [lowestPrice, setLowestPrice] = useState<number>(0);
+    const [registeredDate, setRegisteredDate] = useState<string>('');
+    const [stocksList, setstocksList] = useState<any>('');
+    const [CompanyData, setCompanyData] = useState<CompanyDetail>({
+        _id:"",
+        code: "",
+        name: "",
+        ceo: "",
+        turnover: "",
+        website: "",
+        exchange: "",
+        createdAt: "",
+        updatedAt: "",
         __v: 0,
-        stocksValue: [
-            {
-                id: 3,
-                code: "msft11",
-                time: "2022-06-13T04:55:45.000Z",
-                price: "2"
-            },
-            {
-                id: 3,
-                code: "msft11",
-                time: "2022-06-13T04:55:45.000Z",
-                price: "24"
-            },
-            {
-                id: 3,
-                code: "msft11",
-                time: "2022-06-13T04:55:45.000Z",
-                price: "24"
-            },
-            {
-                id: 3,
-                code: "msft11",
-                time: "2022-07-13T04:55:45.000Z",
-                price: "24"
-            },
-            {
-                id: 3,
-                code: "msft11",
-                time: "2022-01-13T04:55:45.000Z",
-                price: "24"
-            },
-            {
-                id: 3,
-                code: "msft11",
-                time: "2022-07-13T04:55:45.000Z",
-                price: "24"
-            },
-            {
-                id: 3,
-                code: "msft11",
-                time: "2022-10-13T04:55:45.000Z",
-                price: "24"
-            },
-            {
-                id: 3,
-                code: "msft11",
-                time: "2022-06-13T04:55:45.000Z",
-                price: "2"
-            },
-            {
-                id: 3,
-                code: "msft11",
-                time: "2022-06-13T04:55:45.000Z",
-                price: "24"
-            },
-            {
-                id: 3,
-                code: "msft11",
-                time: "2022-06-13T04:55:45.000Z",
-                price: "24"
-            },
-            {
-                id: 3,
-                code: "msft11",
-                time: "2022-07-13T04:55:45.000Z",
-                price: "24"
-            },
-            {
-                id: 3,
-                code: "msft11",
-                time: "2022-01-13T04:55:45.000Z",
-                price: "24"
-            },
-            {
-                id: 3,
-                code: "msft11",
-                time: "2022-07-13T04:55:45.000Z",
-                price: "24"
-            },
-            {
-                id: 3,
-                code: "msft11",
-                time: "2022-10-13T04:55:45.000Z",
-                price: "24"
-            }
-        ]
+            stocksValue: [
+                {
+                    id: 0,
+                    code: "",
+                    time: "",
+                    price: ""
+                }
+                ]
+    });
+    
+    const notifyStockUpdate  = () => {
+        toast.success("Stock Price updated", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 300,
+          hideProgressBar: true,
+        });
+      }
+    const getCompanyData = async () => {
+        try {
+            const response = await axios.get(`http://localhost:9090/company/info/`+params.code);
+            setCompanyData(response.data);
+            date = new Date(response.data.createdAt).toLocaleString();
+            setRegisteredDate(date);
+            createStockData(response.data.stocksValue);
+        } catch (error) {
+            console.log(error);
+            props.notifyError();
+            history.push("/");
         }
-    
-    
-    const stockPrices = () => {
-        companyInfo.stocksValue.map((stock:Stock)=>{
-            stockValues.push(+stock.price);
-        })
-    };
+       
+    }
 
+    const createStockData = (stocks:Stock []) => {
+        if(stocks.length === 0) {
+            setAveragePrice(0);
+            setHighestPrice(0);
+            setLowestPrice(0);
+            setstocksList(<p>No stocks available for these dates.</p>);
+            return;
+        }
+        stockPrices(stocks);
+        averagePriceFinder();
+        highestPriceFinder();
+        lowestPriceFinder();
+        createStocksList(stocks);
+    }
+    const stockPrices = (data:any) => {
+        data.forEach((stock:Stock) => {
+            stockValues.push(+stock.price);
+        });
+    };
     const averagePriceFinder = () => {
         const sum = stockValues.reduce((partialSum, a) => partialSum + a, 0);
         setAveragePrice(sum/stockValues.length);
@@ -129,62 +99,86 @@ export const Details = () => {
     const lowestPriceFinder = () => {
         setLowestPrice(Math.min(...stockValues));
     }
+    const createStocksList = (StocksData: Stock[]) => {
+        stocks_List = StocksData.map((stock:Stock)=> {
+            let entryDate = new Date(stock['time']).toLocaleString();
+            return (<div className={styles.priceDetail} key={entryDate}>
+                    <h3 className={styles.price}><span>Price  : </span>{stock.price}</h3>
+                    <h3 className={styles.date}><span>on</span> : {entryDate}</h3>
+                </div>)
+            })
+            setstocksList(stocks_List);
+    }
 
     useEffect(() => {
-        stockPrices();
-        averagePriceFinder();
-        highestPriceFinder();
-        lowestPriceFinder();
-    }, []);
+        getCompanyData();
+    }, [params]);
 
     const hideModal = () => {
         setModalState(false);
     }
-
     const showModal = () => {
         setModalState(true);
     }
-    const params = useParams<{ code: string }>();
-    let date = new Date(companyInfo.createdAt).toLocaleString();
-    let stocks_List = companyInfo.stocksValue.map((stock:Stock)=> {
-        let entryDate = new Date(stock.time).toLocaleString();
-        return (<div className={styles.priceDetail}>
-                <h3 className={styles.price}><span>Price  : </span>{stock.price}</h3>
-                <h3 className={styles.date}><span>on</span> : {entryDate}</h3>
-            </div>)
-    })
+
+    const deleteStock = () => {
+        try {
+            axios.delete(`http://localhost:9090/company/delete/`+params.code).then(()=>{
+                history.push("/");
+                props.notifySuccess();
+            });
+        }catch(error) {
+            console.log(error);
+            props.notifyError();
+        }
+    }
+
+    const newStockAdded = () => {
+        notifyStockUpdate();
+        getCompanyData();
+        hideModal();
+    }
+
+    const filterDateChange = (data:any) => {
+        onChange(data);
+        let startDate = data[0].toISOString().substring(0, 10)
+        let endDate = data[1].toISOString().substring(0, 10);
+        let companyCode = params.code;
+        axios.get('http://localhost:8000/api/stocks/filter/'+startDate+'/'+endDate+'/'+companyCode).then((result)=>{
+            createStockData(result.data);
+        })
+        
+    }
 
     return (<div className='container'>
+    <ToastContainer limit={1}/>
     <div className={styles.flex}>
         <div className={styles.details}> 
-            <span className={styles.title}>{companyInfo.code.toUpperCase()}</span>
+            <span className={styles.title}>{CompanyData.code.toUpperCase()}</span>
             <div className={styles.info}>    
-                <h3><span>Company name</span> : {companyInfo.name.toUpperCase()}</h3>
-                <h3><span>CEO</span> : {companyInfo.ceo}</h3>
-                <h3><span>Turnover</span> : {companyInfo.turnover}</h3>
-                <h3><span>Exchange</span> : {companyInfo.exchange}</h3>
-                <h3><span>Registered on</span> : {date}</h3>
+                <h3><span>Company name</span> : {CompanyData.name.toUpperCase()}</h3>
+                <h3><span>CEO</span> : {CompanyData.ceo}</h3>
+                <h3><span>Turnover</span> : {CompanyData.turnover}</h3>
+                <h3><span>Exchange</span> : {CompanyData.exchange}</h3>
+                <h3><span>Registered on</span> : {registeredDate}</h3>
                 <h3><span>Highest Value</span> : {highestPrice}$</h3>
                 <h3><span>Lowest Value</span> : {lowestPrice}$</h3>
                 <h3><span>Average Value</span> : {averagePrice.toFixed(2)}$</h3>            
             </div>
         </div>
         <div className={styles.stocks}>
-                {stocks_List}
+            <div className={styles.datePicker}>
+                <DateRangePicker onChange={filterDateChange} value={value} />
+            </div>
+            {stocksList}
         </div>    
     </div>
     <div>
-        <button className={styles.deleteButton}>Delete Stock</button>
+        <button className={styles.deleteButton} onClick={deleteStock}>Delete Stock</button>
         <button className={styles.stockButton} onClick={showModal}>Add Stock Value</button>
-        <Modal show={modalState} handleClose={hideModal} >
-        <div>
-            <p>{params.code.toUpperCase()}</p>
-            <label>Stock Price</label>
-            <input type='number' min="0"/>
-        </div>
+        <Modal show={modalState} handleClose={hideModal} stockCode={params.code} stockUpdate={newStockAdded}>
+        <p>{params.code.toUpperCase()}</p>
         </Modal>
-    </div>
-    <div>
     </div>
     </div>);
 }

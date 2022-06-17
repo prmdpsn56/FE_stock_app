@@ -1,8 +1,7 @@
-import React,{ useReducer } from "react";
+import React from "react";
 import styles from './Register.module.scss';
 
 export const Register = () => {
-
     const formSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         console.log(event.target);

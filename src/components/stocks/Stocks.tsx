@@ -1,51 +1,16 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import styles from './Stocks.module.scss';
 import {StocksItem} from '../stocksItem/StocksItem';
 import { Company } from '../../models/companies';
-import { Link } from "react-router-dom";
+import axios from 'axios';
+
 
 
 export const Stocks = () => {
-    let companies: Company [] = [
-        {
-            _id: "62a403f2f331f54566c68fc9",
-            code: "msft1",
-            name: "microsoft",
-            ceo: "Nadella",
-            turnover: "220cs",
-            website: "microsoft.com",
-            exchange: "NASDAQ"
-        },
-        {
-            _id: "62a403f2f331f54566c68fc9",
-            code: "msft2",
-            name: "microsoft",
-            ceo: "nadella",
-            turnover: "220cs",
-            website: "microsoft.com",
-            exchange: "NASDAQ"
-        },{
-            _id: "62a403f2f331f54566c68fc9",
-            code: "msft1",
-            name: "microsoft",
-            ceo: "Nadella",
-            turnover: "220cs",
-            website: "microsoft.com",
-            exchange: "NASDAQ"
-        },
-        {
-            _id: "62a403f2f331f54566c68fc9",
-            code: "msft2",
-            name: "microsoft",
-            ceo: "nadella",
-            turnover: "220cs",
-            website: "microsoft.com",
-            exchange: "NASDAQ"
-        }]
+    let companies: Company [] = [];
     const [registeredCompanies, setCompanies] = useState(companies);
     let headLine = registeredCompanies.length > 0 ? 'Registered Companies' : 'No Registered Companies Found'
-     let companiesList = companies.map((company: Company)=>(
-     <Link to={'/info/'+company.code}>
+     let companiesList = registeredCompanies.map((company: Company)=>(
         <StocksItem 
             code={company.code} 
             name={company.name} 
@@ -54,8 +19,17 @@ export const Stocks = () => {
             turnover={company.turnover} 
             website={company.website} 
             key={company._id}/>
-    </Link>));
+            ));
     
+    const getCompanies = async () => {
+        const response = await axios.get(`http://localhost:9090/company/getall`);
+        setCompanies(response.data.companies_list);
+    }
+    
+    useEffect(() => {
+        getCompanies();
+    }, [])
+
     return(
         <div className='container'>
             <div className={styles.stocks}>

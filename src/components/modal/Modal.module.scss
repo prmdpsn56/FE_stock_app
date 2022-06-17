@@ -1,3 +1,5 @@
+@import '../../App.scss';
+
 .modal {
   position: fixed;
   top: 0;
@@ -14,10 +16,47 @@
   height: auto;
   top:50%;
   left:50%;
+  padding:30px;
   transform: translate(-50%,-50%);
-  border:1px solid red;
+  // border:1px solid red;
   text-align:center;
-  p {coloe:red;}
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  p {
+    color:black;
+    font-size: 20px;
+    font-weight:700;
+  };
+  label {
+    margin:20px 0px 10px 0px;
+  }
+
+  input {
+    margin:0px 0px 10px 0px;
+    border: 1px solid black;
+    padding: 10px;
+  }
+  
+  .cancelButton {
+    background: #b70101;
+    border-radius:5px;
+    font-size:15px;
+    border:none;
+    padding: 10px 20px;
+    color: white;
+}
+
+.enterButton {
+    background: $highlight-color;
+    border-radius:5px;
+    font-size:15px;
+    border:none;
+    padding: 10px 20px;
+    color: white;
+    margin: 10px;
+}
 }
 
 .displayBlock {
@@ -30,4 +69,16 @@
 
 .addStock{
   border:1px solid red;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
