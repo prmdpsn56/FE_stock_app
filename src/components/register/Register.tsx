@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 
 
 interface RegisterProps {
-    notifyError: () => void,
+    notifyError: (message:string) => void,
     notifySuccess: (message:string) => void
 }
 
@@ -34,28 +34,34 @@ export const Register:React.FC<RegisterProps> = (props:RegisterProps)=> {
     const [exchange, setExchange]= useState<string>('');
     const [enteredExchangeTouched, setEnteredExchangeTouched] = useState<boolean>(false);
 
-    const codeIsValid = code_pattern.test(code);
+    const codeIsValid = (code_pattern.test(code) && code.trim() !== '');
     const codeIsInvalid = !codeIsValid && enteredCodeTouched;
-    const nameIsValid = string_pattern.test(name);
+    const nameIsValid = (string_pattern.test(name) && name.trim() !== '');
     const nameIsInvalid = !nameIsValid && enteredNameTouched;
-    const ceoIsValid = string_pattern.test(ceo);
+    const ceoIsValid = (string_pattern.test(ceo) && ceo.trim() !== '');
     const ceoIsInvalid = !ceoIsValid && enteredCeoTouched;
-    const turnoverIsValid = turnover_pattern.test(turnover);
+    const turnoverIsValid = (turnover_pattern.test(turnover) && turnover.trim() !== '');
     const turnoverIsInvalid = !turnoverIsValid && enteredTurnoverTouched;
-    const websiteIsValid = pattern.test(website);
+    const websiteIsValid = (pattern.test(website) && website.trim() !== '');
     const websiteIsInvalid = !websiteIsValid && enteredWebsiteTouched;
-    const exchangeIsValid = string_pattern.test(exchange);
+    const exchangeIsValid = (string_pattern.test(exchange) && exchange.trim() !== '');
     const exchangeIsInvalid = !exchangeIsValid && enteredExchangeTouched;
 
     let formIsValid = false;
     
     if(!codeIsInvalid && !nameIsInvalid && !ceoIsInvalid && !turnoverIsInvalid && !websiteIsInvalid) {
+        console.log(codeIsInvalid);
         formIsValid = true;
     }
 
     const formSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setEnteredCodeTouched(true);
+        setEnteredNameTouched(true);
+        setEnteredCeoTouched(true);
+        setEnteredTurnoverTouched(true);
+        setEnteredWebsiteTouched(true);
+        setEnteredExchangeTouched(true);
         if(!formIsValid){
             return;
         }
@@ -67,8 +73,7 @@ export const Register:React.FC<RegisterProps> = (props:RegisterProps)=> {
             props.notifySuccess('Company Registered in Database.');
             history.push("/");
         } catch (error) {
-            props.notifyError();
-            history.push("/");
+            props.notifyError('Please enter valid values');
             console.log(error)
         }
         setCode('');

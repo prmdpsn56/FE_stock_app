@@ -11,7 +11,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 interface DetailsProps {
-    notifyError: () => void,
+    notifyError: (message:string) => void,
     notifySuccess: (message:string) => void
 }
 
@@ -64,7 +64,7 @@ export const Details:React.FC<DetailsProps> = (props:DetailsProps) => {
             createStockData(response.data.stocksValue);
         } catch (error) {
             console.log(error);
-            props.notifyError();
+            props.notifyError('No data found for that company!');
             history.push("/");
         }
        
@@ -129,7 +129,7 @@ export const Details:React.FC<DetailsProps> = (props:DetailsProps) => {
             });
         }catch(error) {
             console.log(error);
-            props.notifyError();
+            props.notifyError('problem deleting the stock');
         }
     }
 

@@ -12,8 +12,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
-  const notifyError  = () => {
-    toast.error("No data found for that company!", {
+  const notifyError  = (message:string) => {
+    toast.error(message, {
       position: toast.POSITION.TOP_RIGHT,
       autoClose: 500,
       hideProgressBar: true,
