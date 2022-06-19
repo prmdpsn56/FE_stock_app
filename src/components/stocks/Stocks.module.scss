@@ -13,9 +13,13 @@
     }
     .stocks {
         height: auto;
-
         width:100%;
         height:auto;
+        .loader {
+            padding:50px 0px;
+            display:flex;
+            justify-content:center;
+        }
     .noContent{
         text-align:center;
         }

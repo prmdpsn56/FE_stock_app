@@ -19,8 +19,8 @@ function App() {
       hideProgressBar: true,
     });
   }
-  const success = () => {
-    toast.success("Company Record Deleted", {
+  const success = (message:string) => {
+    toast.success(message, {
       position: toast.POSITION.TOP_RIGHT,
       autoClose: 500,
       hideProgressBar: true,
@@ -39,7 +39,7 @@ function App() {
             <Stocks />
       </Route>
       <Route path="/register" exact>
-            <Register />
+          <Register notifyError={notifyError} notifySuccess={success}/>
       </Route>
       <Route path="/info/:code" exact>
           <Details notifyError={notifyError} notifySuccess={success}/>

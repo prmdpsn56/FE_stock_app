@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 interface DetailsProps {
     notifyError: () => void,
-    notifySuccess: () => void
+    notifySuccess: (message:string) => void
 }
 
 export const Details:React.FC<DetailsProps> = (props:DetailsProps) => {
@@ -125,7 +125,7 @@ export const Details:React.FC<DetailsProps> = (props:DetailsProps) => {
         try {
             axios.delete(`http://localhost:9090/company/delete/`+params.code).then(()=>{
                 history.push("/");
-                props.notifySuccess();
+                props.notifySuccess('Company delete from database.');
             });
         }catch(error) {
             console.log(error);

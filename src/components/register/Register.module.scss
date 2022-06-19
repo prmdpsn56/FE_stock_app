@@ -3,6 +3,9 @@
 .registerForm{
     margin: auto;
     text-align: center;
+    p{
+        color:red;
+    }
     .title{
         margin-bottom:30px
     }
@@ -48,7 +51,13 @@
                     border: 1px solid $secondary-color;
                     color:  $primary-color;
                     font-weight: 300;
-                    border-radius: 10px;
+                    border-radius: 5px;
+            }
+
+            &:disabled {
+                background-color:#00000042;
+                border-color:red;
+                cursor:not-allowed;
             }
         } 
     }

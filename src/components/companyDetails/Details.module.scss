@@ -53,14 +53,8 @@
             padding: 10px 30px;
             border-radius:5px;
             background: $highlight-color;
-            .price {
-                span {
-                    // background: $primary-color;
-                    // color:lightgrey;
-                }
-            }
-            .date {
-
+            @media screen and (max-width: 699px) { 
+                flex-direction: column;
             }
         }
          @media screen and (min-width: 700px) { 

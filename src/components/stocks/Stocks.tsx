@@ -3,12 +3,13 @@ import styles from './Stocks.module.scss';
 import {StocksItem} from '../stocksItem/StocksItem';
 import { Company } from '../../models/companies';
 import axios from 'axios';
-
+import {Loader} from '../loader/Loader'
 
 
 export const Stocks = () => {
     let companies: Company [] = [];
     const [registeredCompanies, setCompanies] = useState(companies);
+    const [showLoader, setShowLoader] = useState(true);
     let headLine = registeredCompanies.length > 0 ? 'Registered Companies' : 'No Registered Companies Found'
      let companiesList = registeredCompanies.map((company: Company)=>(
         <StocksItem 
@@ -22,8 +23,18 @@ export const Stocks = () => {
             ));
     
     const getCompanies = async () => {
+        try {
         const response = await axios.get(`http://localhost:9090/company/getall`);
         setCompanies(response.data.companies_list);
+        setTimeout(() => {
+            setShowLoader(false);
+        }, 1500);
+        } catch (error) {
+            setTimeout(() => {
+                setShowLoader(false);
+            }, 1500);
+        }
+        
     }
     
     useEffect(() => {
@@ -37,7 +48,10 @@ export const Stocks = () => {
                     <span>{headLine}</span>
                 </div>
                     <br/>
-                    {registeredCompanies && companiesList}
+                    {showLoader && <div className={styles.loader}>
+                        <Loader/>
+                    </div>}
+                    {(registeredCompanies && !showLoader) && companiesList}
              </div>
         </div>
     )}
