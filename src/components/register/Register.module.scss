@@ -1,0 +1,64 @@
+@import '../../App.scss';
+
+.registerForm{
+    margin: auto;
+    text-align: center;
+    p{
+        color:red;
+    }
+    .title{
+        margin-bottom:30px
+    }
+    span{
+        text-align: center;
+        font-size: 30px;
+        font-weight: 800;
+        border-bottom: 10px solid $highlight-color;
+        padding:10px;
+        margin-bottom:50px;
+    }
+    form{
+        max-width: 500px;
+        margin:30px auto;
+        .field{
+            display: flex;
+            flex-direction: column;
+            margin: 10px 0;
+            text-align: left;
+            input {
+                border: 1px solid lightgrey;
+                padding: 10px 5px;
+                margin: 5px 0px;
+                border-radius: 5px;
+                // -webkit-box-shadow: 0px 8px 15px -8px rgba(0,0,0,0.62); 
+                // box-shadow: 0px 8px 15px -8px rgba(0,0,0,0.62);
+            }
+        }
+        button {
+            display:block;
+            border:none;
+            background-color: $primary-color;
+            border: 1px solid $primary-color;
+            color: $secondary-color;
+            text-transform: uppercase;
+            padding: 10px 20px;
+            margin: auto;
+            box-sizing: border-box;
+            cursor: pointer;
+            transition: 0.25s;
+            &:hover{
+                    background-color: white;
+                    border: 1px solid $secondary-color;
+                    color:  $primary-color;
+                    font-weight: 300;
+                    border-radius: 5px;
+            }
+
+            &:disabled {
+                background-color:#00000042;
+                border-color:red;
+                cursor:not-allowed;
+            }
+        } 
+    }
+}
