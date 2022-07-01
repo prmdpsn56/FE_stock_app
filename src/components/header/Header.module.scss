@@ -106,21 +106,20 @@ a {
     display: flex;
     align-items: center;
     transition: all 1s ease-in-out;
-    position: absolute;
+    position: fixed;
     z-index:10;
     margin-top: 80px;
+    // position: fixed;
     .sidebar-navigation {
         list-style-type: none;
 
         li {
             margin: 10px 0px;
-
-            a {
                 color: white;
                 margin: 0px 10px;
                 position: relative;
                 @include hoverStyle;
-            }
+                margin: 10px 0px;
         }
     }
 

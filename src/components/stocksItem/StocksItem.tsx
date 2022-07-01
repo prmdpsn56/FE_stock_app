@@ -32,7 +32,7 @@ export const StocksItem:React.FC<StocksItems> = (props:StocksItems) => {
         <div className={styles.stocksItem} onClick={redirect}>
             <div>
                 <h1>{props.code.toUpperCase()}</h1>
-                <NavLink to="www.microsoft.com" target="_blank">{props.website}</NavLink>
+                <a href={props.website} target='_blank'rel="noopener">{props.website}</a>
             </div>
             <div className={styles.info}> 
                 <div className={styles.infoleft}>
