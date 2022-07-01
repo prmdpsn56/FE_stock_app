@@ -57,7 +57,7 @@ export const Details:React.FC<DetailsProps> = (props:DetailsProps) => {
       }
     const getCompanyData = async () => {
         try {
-            const response = await axios.get(`http://localhost:9090/company/info/`+params.code);
+            const response = await axios.get(`http://mongo-db-loadbalancer-1163247518.us-east-1.elb.amazonaws.com/company/info/`+params.code);
             setCompanyData(response.data);
             date = new Date(response.data.createdAt).toLocaleString();
             setRegisteredDate(date);
@@ -123,7 +123,7 @@ export const Details:React.FC<DetailsProps> = (props:DetailsProps) => {
 
     const deleteStock = () => {
         try {
-            axios.delete(`http://localhost:9090/company/delete/`+params.code).then(()=>{
+            axios.delete(`http://mongo-db-loadbalancer-1163247518.us-east-1.elb.amazonaws.com/company/delete/`+params.code).then(()=>{
                 history.push("/");
                 props.notifySuccess('Company delete from database.');
             });

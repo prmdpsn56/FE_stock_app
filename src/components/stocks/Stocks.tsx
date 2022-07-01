@@ -24,7 +24,7 @@ export const Stocks = () => {
     
     const getCompanies = async () => {
         try {
-        const response = await axios.get(`http://localhost:9090/company/getall`);
+        const response = await axios.get(`http://mongo-db-loadbalancer-1163247518.us-east-1.elb.amazonaws.com/company/getall`);
         setCompanies(response.data.companies_list);
         setTimeout(() => {
             setShowLoader(false);

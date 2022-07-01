@@ -9,7 +9,7 @@ export const Modal = (props:any) => {
       let enteredValue = +inputRef.current.value;
       if(enteredValue > 0) {
         try { 
-            await axios.post('http://localhost:8000/api/stocks/entry',{
+            await axios.post('http://node-mysql-loadbalancer-1776932743.us-east-1.elb.amazonaws.com/api/stocks/entry',{
             code:props.stockCode,
             price: +inputRef.current.value
           }) 

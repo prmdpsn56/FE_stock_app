@@ -68,7 +68,7 @@ export const Register:React.FC<RegisterProps> = (props:RegisterProps)=> {
         let company_info =  new RegisterCompany(code,name,ceo,turnover,website,exchange);
         console.log(company_info);
         try {
-            const response = await axios.post('http://localhost:9090/company/register',company_info);
+            const response = await axios.post('http://mongo-db-loadbalancer-1163247518.us-east-1.elb.amazonaws.com/company/register',company_info);
             console.log(response);
             props.notifySuccess('Company Registered in Database.');
             history.push("/");
